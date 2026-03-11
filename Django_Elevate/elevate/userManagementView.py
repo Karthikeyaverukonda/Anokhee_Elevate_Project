@@ -82,7 +82,7 @@ class LoginView(APIView):
                 {"error": "Invalid credentials"},
                 status=status.HTTP_401_UNAUTHORIZED
             )
-        if user.user_role != request_user_role:
+        if (request_user_role == "Employee" and user.user_role in ["Admin", "Art Manager"]) or (request_user_role in ["Admin", "Art Manager"] and user.user_role != request_user_role):
             return Response(
                 {"error": "User role mismatch"},
                 status=status.HTTP_401_UNAUTHORIZED
